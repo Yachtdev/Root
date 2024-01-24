@@ -1,19 +1,3 @@
-# настройка сервера ubuntu 22.04 
-- create sudo user
-useradd -m <user>
-usermod -aG sudo <user>
-nano /etc/passwd
-- change sh to bash
-passwd <user>
-exit
-- login from terminal
-
-# TODO безопасность
-- запретить вход под рутом
-- вход по ключу
-- сменить порт ssh
-- настроить таймауты входа
-
 # установка и обновление node & npm
 sudo apt-get update
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
@@ -25,10 +9,36 @@ npm -v
 10.3.0
 
 # установка сервера
+https://github.com/signalk
+https://github.com/SignalK/signalk-server
+
 sudo npm install -g signalk-server
 - проверка тестовых данных
 - в браузере serverip:3000
 signalk-server --sample-nmea0183-data
+signalk-server --sample-n2k-data
 - настройка
+sudo signalk-server-setup
+port 3000
+SSL no
+
+systemctl daemon-reload
+systemctl enable signalk.service
+systemctl enable signalk.socket
+systemctl stop signalk.service
+systemctl restart signalk.socket
+systemctl restart signalk.service
+
+systemctl status signalk.service
+systemctl status signalk.socket
+
+restart system
+
+127.0.0.1:3000
+admin admin
+settings mdsn on
+после настройки data connection - restart
+добавим данные с симулятора 
+https://github.com/panaaj/nmeasimulator/releases
 
 
