@@ -42,3 +42,6 @@ settings mdsn on
 https://github.com/panaaj/nmeasimulator/releases
 
 
+plugin
+add
+signalk-mqtt-bridge	
