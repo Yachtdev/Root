@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <ArduinoOTA.h>
 
-
 void setup() {
 
   ArduinoOTA
