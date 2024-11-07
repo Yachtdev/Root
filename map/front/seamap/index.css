@@ -183,16 +183,16 @@ ul {
 
 #geoCompassRose {
   position: absolute;
-  right: calc(50%+581px);
-  bottom: (50%+581px);
+  right: calc(50%+ 581px);
+  bottom: calc(50%+ 581px);
   width: 261px;
   height: 261px;
 }
 
 #magCompassRose {
   position: absolute;
-  right: calc(50%+581px);
-  bottom: (50%+581px);
+  right: calc(50%+ 581px);
+  bottom: calc(50%+ 581px);
   width: 261px;
   height: 261px;
   transform: rotate(0deg);
@@ -468,19 +468,19 @@ table#routeSegmentList td {
 
 table#routeSegmentList th,
 td:nth-child(1) {
-  width: 20;
+  width: 20px;
 } /* segment # */
 table#routeSegmentList th,
 td:nth-child(2) {
-  width: 60;
+  width: 60px;
 } /* course */
 table#routeSegmentList th,
 td:nth-child(3) {
-  width: 70;
+  width: 70px;
 } /* distance */
 table#routeSegmentList th,
 td:nth-child(4) {
-  width: 200;
+  width: 200px;
 } /* coordinates */
 
 /* even/odd coloring */
