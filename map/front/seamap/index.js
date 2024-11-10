@@ -92,10 +92,38 @@ function addPermalinkMarker(coordinate) {
     $('#params-modal').modal('show');
     $('#inputLatitude').val(ns + lat_d + "°" + format2FixedLenght(lat_m,6,3));
     $('#inputLongitude').val(we + lon_d + "°" + format2FixedLenght(lon_m,6,3));
+    $('#inputLatitude').prop("lat", ((lat - Math.trunc(lat))/(100/60)) + Math.trunc(lat));
+    $('#inputLongitude').prop("lon", ((lon - Math.trunc(lon))/(100/60)) + Math.trunc(lon));
 
     addMarker(layer_marker, lon, lat, "test");
 
     console.log(ns + lat_d + "°" + format2FixedLenght(lat_m,6,3) + "'" + " " + we + lon_d + "°" + format2FixedLenght(lon_m,6,3) + "'");
+}
+
+function createMarker() {
+    console.log("create marker");
+    $.ajax({
+        type: "POST",
+        crossdomain: true,
+        url: "http://127.0.0.1:8080/api/ais",
+        dataType: "json",
+        data: JSON.stringify({
+            "lon": $('#inputLongitude').prop("lon"),
+            "lat": $('#inputLatitude').prop("lat"),
+            "cog": 0
+        }),
+        success: function (result) {
+            console.log(result)
+        },
+        error: function (xhr, status, err) {
+            // если 201, то всё в порядке
+            if (xhr.status === 201) {
+                $('#params-modal').modal('hide');
+            } else {
+                console.log(xhr, status, err)
+            }
+        }
+    });
 }
 
 function initMap() {

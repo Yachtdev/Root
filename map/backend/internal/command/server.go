@@ -46,7 +46,7 @@ func NewCommand() *cobra.Command {
 			cfg := config.NewConfig(viper.GetViper())
 
 			slog.Infof(`[yachtdev-map-server] Starting API-server %s:%s`, cfg.Http.Host, cfg.Http.Port)
-			srv := server.NewServer(cfg)
+			srv := server.NewServer(cfg, slog)
 
 			sigCh := make(chan os.Signal, 1)
 			signal.Notify(sigCh, syscall.SIGTERM, syscall.SIGINT)
