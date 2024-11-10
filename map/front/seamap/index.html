@@ -48,16 +48,16 @@
                         <form>
                             <div class="form-group">
                                 <label for="inputLatitude">Широта</label>
-                                <input type="text" class="form-control" id="inputLatitude" aria-describedby="latitudeHelp" placeholder="latitude">
+                                <input type="text" class="form-control" id="inputLatitude" aria-describedby="latitudeHelp" placeholder="latitude" lat="">
                             </div>
                             <div class="form-group">
                                 <label for="inputLongitude">Долгота</label>
-                                <input type="text" class="form-control" id="inputLongitude" placeholder="longitude">
+                                <input type="text" class="form-control" id="inputLongitude" placeholder="longitude" lon="">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-primary" onclick="createMarker()">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>

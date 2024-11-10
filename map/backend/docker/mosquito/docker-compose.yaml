@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto:/opt/mosquitto
+      - ./mosquitto/mosquitto.conf:/opt/mosquitto/mosquitto.conf
+    network_mode: host
