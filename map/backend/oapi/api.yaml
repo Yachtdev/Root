@@ -1,0 +1,68 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger yachtdev backend
+  description: A sample API for the yactdev
+  termsOfService: https://swagger.io/terms/
+  contact:
+    name: Yachtdev Team
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /api/v1/ais:
+    post:
+      summary: Creates a new ais point
+      description: Creates a new ais point
+      operationId: addAisPoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AisPoint'
+      responses:
+        201:
+          description: add ais point success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AisPoint'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AisPoint:
+      allOf:
+        - required:
+            - lat
+            - lon
+          properties:
+            lat:
+              type: number
+              format: float
+              description: широта
+            lon:
+              type: number
+              format: float
+              description: долгота
+            course:
+              type: number
+              format: float
+              description: курс
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int
+          description: Error code
+        message:
+          type: string
+          description: Error message

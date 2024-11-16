@@ -6,11 +6,15 @@ import (
 	"go.uber.org/zap"
 )
 
-type AIS struct {
-	nmea   *aisnmea.NMEACodec
-	logger *zap.SugaredLogger
-}
+// AIS производит кодирование и декодирование строк AIS.
+type (
+	AIS struct {
+		nmea   *aisnmea.NMEACodec
+		logger *zap.SugaredLogger
+	}
+)
 
+// New AIS-constructor.
 func New(logger *zap.SugaredLogger) *AIS {
 	return &AIS{
 		nmea:   aisnmea.NMEACodecNew(ais.CodecNew(false, false)),
@@ -18,7 +22,8 @@ func New(logger *zap.SugaredLogger) *AIS {
 	}
 }
 
-func (a *AIS) Encode(lat, lon, cog float64) []string {
+// Encode кодирует в AIS.
+func (a *AIS) Encode(lat, lon, cog float32) []string {
 	encoded := a.nmea.EncodeSentence(aisnmea.VdmPacket{
 		MessageType: "AIVDM",
 		Packet: ais.PositionReport{
@@ -38,4 +43,5 @@ func (a *AIS) Encode(lat, lon, cog float64) []string {
 	return encoded
 }
 
+// Decode декодирует из AIS.
 func (a *AIS) Decode(msg []byte) {}

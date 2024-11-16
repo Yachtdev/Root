@@ -8,14 +8,21 @@ import (
 )
 
 type (
+	// Config конфигурация.
 	Config interface {
+		// MqttHost узел на котором развёрнут сервер.
 		MqttHost() string
+		// MqttPort порт на котором отвечает сервер.
 		MqttPort() string
+		// MqttClientID идентификатор клиента.
 		MqttClientID() string
+		// MqttUsername логин пользователя.
 		MqttUsername() string
+		// MqttPassword пароль.
 		MqttPassword() string
 	}
 
+	// MQTT реализует логику работы с mqtt-сервером.
 	MQTT struct {
 		Client             mqtt.Client
 		logger             *zap.SugaredLogger
@@ -25,6 +32,7 @@ type (
 	}
 )
 
+// NewMQttClient constructor.
 func NewMQttClient(cfg Config, logger *zap.SugaredLogger) *MQTT {
 	Mqtt := &MQTT{
 		messagePubHandler: func(client mqtt.Client, msg mqtt.Message) {
@@ -48,6 +56,7 @@ func NewMQttClient(cfg Config, logger *zap.SugaredLogger) *MQTT {
 	opts.OnConnect = Mqtt.connectHandler
 	opts.OnConnectionLost = Mqtt.connectLostHandler
 	client := mqtt.NewClient(opts)
+
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
@@ -57,6 +66,7 @@ func NewMQttClient(cfg Config, logger *zap.SugaredLogger) *MQTT {
 	return Mqtt
 }
 
+// Pub отправляет сообщения в топик mqtt.
 func (m *MQTT) Pub(payload []byte, topic string) {
 	token := m.Client.Publish(topic, 0, false, payload)
 	token.Wait()
@@ -64,6 +74,7 @@ func (m *MQTT) Pub(payload []byte, topic string) {
 	m.logger.Infof("[yachtdev-map-server] Send to topic %s: %s", topic, payload)
 }
 
+// Sub Подписывает на сообщения из топиков mqtt.
 func (m *MQTT) Sub(topics []string) {
 	for _, topic := range topics {
 		token := m.Client.Subscribe(topic, 1, nil)

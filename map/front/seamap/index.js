@@ -101,27 +101,21 @@ function addPermalinkMarker(coordinate) {
 }
 
 function createMarker() {
-    console.log("create marker");
     $.ajax({
         type: "POST",
         crossdomain: true,
-        url: "http://127.0.0.1:8080/api/ais",
+        url: "http://127.0.0.1:8080/api/v1/ais",
         dataType: "json",
         data: JSON.stringify({
             "lon": $('#inputLongitude').prop("lon"),
             "lat": $('#inputLatitude').prop("lat"),
-            "cog": 0
+            "course": 0
         }),
         success: function (result) {
-            console.log(result)
+            $('#params-modal').modal('hide');
         },
         error: function (xhr, status, err) {
-            // если 201, то всё в порядке
-            if (xhr.status === 201) {
-                $('#params-modal').modal('hide');
-            } else {
-                console.log(xhr, status, err)
-            }
+            console.log(xhr, status, err)
         }
     });
 }
