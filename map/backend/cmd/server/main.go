@@ -14,6 +14,6 @@ func main() {
 	}
 
 	if err := command.NewCommand().ExecuteContext(ctx); err != nil {
-		fmt.Println(fmt.Sprintf(`Failed to execute command: %s`, err.Error()))
+		fmt.Printf(`Failed to execute command: %s\n`, err.Error())
 	}
 }

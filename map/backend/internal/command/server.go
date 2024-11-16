@@ -12,10 +12,14 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 
+	"server/internal/ais"
 	"server/internal/config"
+	"server/internal/mqtt"
 	"server/internal/server"
+	"server/internal/service"
 )
 
+// NewCommand запускает новый http-сервер.
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           `yachtdev-map-server`,
@@ -45,8 +49,13 @@ func NewCommand() *cobra.Command {
 
 			cfg := config.NewConfig(viper.GetViper())
 
+			aisProcessor := ais.New(slog)
+			mqttClient := mqtt.NewMQttClient(cfg, slog)
+			s := service.New(aisProcessor, mqttClient, slog)
+			s.MQTT.Sub([]string{"test", "test2"})
+
 			slog.Infof(`[yachtdev-map-server] Starting API-server %s:%s`, cfg.Http.Host, cfg.Http.Port)
-			srv := server.NewServer(cfg, slog)
+			srv := server.NewServer(cfg, slog, s)
 
 			sigCh := make(chan os.Signal, 1)
 			signal.Notify(sigCh, syscall.SIGTERM, syscall.SIGINT)
